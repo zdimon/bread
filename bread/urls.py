@@ -19,17 +19,16 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from rest_framework import routers, serializers, viewsets
-from api.models import Kiosk
+from rest_framework.decorators import detail_route, list_route
+from api.models import *
+from api.views import *
+from api.serializers import *
 
-# Serializers define the API representation.
-class KioskSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Kiosk
-        fields = ('url','address', 'latitude', 'longitude')
+
 
 # ViewSets define the view behavior.
 class KioskViewSet(viewsets.ModelViewSet):
-    queryset = Kiosk.objects.all()[0:20]
+    queryset = Kiosk.objects.all()
     serializer_class = KioskSerializer
 
 # Routers provide an easy way of automatically determining the URL conf.
@@ -38,8 +37,27 @@ router.register(r'kiosk', KioskViewSet)
 
 
 
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.filter(level=0)
+    serializer_class = CategorySerializer
+
+    @list_route()
+    def subdirectory(self, request, *args, **kwargs):
+        #subdirectory = self.get_object() if detail_route
+        #serializer = HightLevelCategorySerializer(subdirectory,context={'request': request})
+        serializer = HightLevelCategorySerializer(self.queryset, many=True)
+        return Response(serializer.data)
+
+
+
+router.register(r'category', CategoryViewSet)
+
+
+
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^hello/', hello_world),
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
