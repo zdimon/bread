@@ -21,9 +21,9 @@ class Command(BaseCommand):
         Category.objects.create(name=u'Слойки',parent=c2)
         Category.objects.create(name=u'Пирожное',parent=c2)
         Category.objects.create(name=u'Булочки',parent=c2)
-        Category.objects.create(name=u'',parent=c2)
-        Category.objects.create(name=u'',parent=c2)
-        Category.objects.create(name=u'',parent=c2)
+        Category.objects.create(name=u'Эклеры',parent=c2)
+        Category.objects.create(name=u'Круасаны',parent=c2)
+        Category.objects.create(name=u'Домашняя выпечка',parent=c2)
         print 'it is done'
 
 
