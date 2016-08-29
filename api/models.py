@@ -51,8 +51,8 @@ class Product(models.Model):
     description = models.CharField(max_length=200)
     ammount = models.PositiveSmallIntegerField(default=0) 
     rate = models.PositiveSmallIntegerField(default=0)
-    category = models.ForeignKey(Category, null=True, blank=True, related_name='category')
-    subcategory = models.ForeignKey(Category, null=True, blank=True, related_name='subcategory')
+    category = models.ForeignKey(Category, null=True, blank=True, related_name='category_product')
+    subcategory = models.ForeignKey(Category, null=True, blank=True, related_name='subcategory_product')
     name_slug = models.CharField(verbose_name='Name slug',max_length=250, blank=True)
     @property
     def short_name(self):

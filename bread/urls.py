@@ -18,38 +18,15 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
-from rest_framework import routers, serializers, viewsets
-from rest_framework.decorators import detail_route, list_route
+from rest_framework import routers
 from api.models import *
 from api.views import *
 from api.serializers import *
 
 
 
-# ViewSets define the view behavior.
-class KioskViewSet(viewsets.ModelViewSet):
-    queryset = Kiosk.objects.all()
-    serializer_class = KioskSerializer
-
-# Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'kiosk', KioskViewSet)
-
-
-
-class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.filter(level=0)
-    serializer_class = CategorySerializer
-
-    @list_route()
-    def subdirectory(self, request, *args, **kwargs):
-        #subdirectory = self.get_object() if detail_route
-        #serializer = HightLevelCategorySerializer(subdirectory,context={'request': request})
-        serializer = HightLevelCategorySerializer(self.queryset, many=True)
-        return Response(serializer.data)
-
-
-
 router.register(r'category', CategoryViewSet)
 
 

@@ -48,24 +48,26 @@ class Command(BaseCommand):
         im.image.save('bread.jpg',django_file,save=True)    
 
 
-        p = Product.objects.create(
-            name = u'Хлеб злаковый 550гр',
-            price = 55,
-            description = '''Состав продукта: Солод красный, кориандр молотый, мука ржаная, мука в/с, сахар, масло растительное, кориандр целый, закваска, соль, вода. ''',
-            ammount = 5,
-            rate = 1,
-            category = c1,
-            subcategory = c4
-        )
-        
-        file_path = BASE_DIR+'/api/fixtures/bread.jpg'
-        reopen = open(file_path, "rb")
-        django_file = File(reopen)
-        im = ProductImages()
-        im.product = p
-        im.is_main = True
-        im.save()
-        im.image.save('bread.jpg',django_file,save=True)   
+        for i in range(3,10):
+            cname = 'c%s' % i 
+            p = Product.objects.create(
+                name = u'Хлеб злаковый 550гр',
+                price = 55,
+                description = '''Состав продукта: Солод красный, кориандр молотый, мука ржаная, мука в/с, сахар, масло растительное, кориандр целый, закваска, соль, вода. ''',
+                ammount = 5,
+                rate = 1,
+                category = c1,
+                subcategory = eval(cname)
+            )
+            
+            file_path = BASE_DIR+'/api/fixtures/bread.jpg'
+            reopen = open(file_path, "rb")
+            django_file = File(reopen)
+            im = ProductImages()
+            im.product = p
+            im.is_main = True
+            im.save()
+            im.image.save('bread.jpg',django_file,save=True)   
    
         
         print 'it is done'
